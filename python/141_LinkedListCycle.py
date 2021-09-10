@@ -13,12 +13,14 @@ False :
 '''
 
 class ListNode:
+	size =0
 	def __init__(self, data, next = None):
 		self.data = data
 		self.next = next
 
 def make_list(elements):
 	head = ListNode(elements[0])
+	head.size = len(elements)
 	for element in elements[1:]:
 		ptr = head
 		while ptr.next:

@@ -1,13 +1,8 @@
 # LeetCode
 
 
-Contains leetcode problem and solution in python3
+Contains leetcode problem and solution in python3 and C++
 
-Part 1
 Adapted from
 https://leetcode.com/problems/
 
-
-
-Part 2
-TBD
