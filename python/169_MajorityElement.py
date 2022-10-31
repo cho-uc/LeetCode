@@ -19,3 +19,10 @@ if __name__ == "__main__":
 	result = majorityElement(nums)
 	print("Majority Element = "+ str(result))
 
+'''
+Reason:
+The element with m >(n/2) will always be located in the (n/2+1) element
+|--n/2--||--n/2--|
+xxxxx|--n/2--|xx
+xx|--n/2--|xxxxx
+'''

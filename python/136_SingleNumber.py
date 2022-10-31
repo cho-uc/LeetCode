@@ -15,9 +15,9 @@ def singleNumber(nums):
 			result = nums[i]
 			count = 1
 			break
-		i =i+2
+		i = i+2   # we only need to check once every 2 iterations
 
-	if(count ==0):
+	if(count == 0):
 		result = nums[len(nums)-1] # last member of the list
 	return result
 

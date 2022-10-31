@@ -5,71 +5,103 @@ Input: head = [1,2,6,3,4,5,6], val = 6
 Output: [1,2,3,4,5]
 '''
 
-class ListNode:
-	size =0
-	def __init__(self, data, next = None):
-		self.data = data
-		self.next = next
+class Node:
+    def __init__(self, dataval=None):
+        self.dataval = dataval
+        self.nextval = None
 
-def make_list(elements):
-	head = ListNode(elements[0])
-	head.size = len(elements)
-	for element in elements[1:]:
-		ptr = head
-		while ptr.next:
-			ptr = ptr.next
-		ptr.next = ListNode(element)
-	return head
+def make_list(elements: list):
+    head = Node(elements[0])
+    current = head
+    for item in elements[1:]:
+        current.nextval = Node(item)
+        current = current.nextval     # update for next iteration
+    # head will still point to the first element, but current will iterate through the whole elements
+    return head
 
-def get_node(head, pos):
-	if pos != -1:
-		p = 0
-		ptr = head
-		while p < pos:
-			ptr = ptr.next
-			p += 1
-		return ptr
+def listprint(head: Node):
+    current = head
+    while current:
+        print("dataval: "+ str(current.dataval))
+        current = current.nextval
+    print("")
 
-def printLinkedList(head):
-	pos = 0
-	while (pos<head.size):
-		print(get_node(head, pos).data)
-		pos = pos +1
+# Insert new element at the beginning
+# Return new linked list
+def AtBegining(head: Node, newdata: int) -> Node:
+    NewNode = Node(newdata)
+    # Update the new nodes next val to existing node
+    NewNode.nextval = head
+    head = NewNode
+    return head
 
-class Solution:
-	def removeElements(self, head, val):
-		p = head		#head will be modified
-		
-		while 1:
-			if head is None:
-				break
+def UpdateValue(head: Node, pos: int, newdata: int):
+    current = head
+    for i in range (0, pos + 1):
+        if (i == pos):
+            current.dataval = newdata
+        current = current.nextval
 
-			elif head.data == val:
-				head = head.next # removing this element
-				p = head 
-				p.size -=1		#update size
+def copy_list(ori: Node) -> Node:
+    head = Node(ori.dataval)
+    current = head
+    while ori.nextval: # iterate until n-1
+        ori = ori.nextval     # start from head+1 since we already process head
+        current.nextval = Node(ori.dataval)
+        current = current.nextval
+    # head will still point to the first element, but current will iterate through the whole elements
+    return head
 
-			elif head.next is None:
-				break
 
-			elif head.next.data == val:
-				head.next = head.next.next # removing this element
-				p.size -=1		#update size
+def removeElements(head, val):
+    p = head        # a copy of head for return value
+    current = head  # a copy of head for iteration
 
-			else:
-				head = head.next
-		
-		return p
+    while current.nextval: # iterate until n-1
+        if current.dataval == val:
+            current = current.nextval # removing this element
+            p = current               # if first element has to be removed
+        elif current.nextval.dataval == val:
+            current.nextval = current.nextval.nextval # removing this element
+            # if middle element has to be removed
+        else:
+            current = current.nextval
+    
+    return p
 
 
 if __name__ == "__main__":
-	head = make_list([1,2,3,5,2,1,2,4]) #create LinkedList
-	printLinkedList(head)
-	removedElement = 2
-	print("After removing elements = ")
-	ob1 = Solution()
-	result = ob1.removeElements(head, removedElement)
-	printLinkedList(result)
-	print("Initial = ")
-	printLinkedList(head)
+    head = make_list([1,2,3,5,2,4,1,2,4]) #create LinkedList
+    ori = head
+    print("id: " + str(id(head)))
+    listprint(head)
 
+    removedElement = 2
+    print("After removing all elements = "+ str(removedElement)+" including element in the middle")
+    result = removeElements(head, removedElement)
+    print("result: " + str(id(result)))
+    listprint(result)
+
+    print("-------------------")
+    head = make_list([1,2,3,5,2,4,1,2,4]) #create LinkedList
+    ori = head
+    print("id: " + str(id(head)))
+    listprint(head)
+
+    removedElement = 1
+    print("After removing elements = "+ str(removedElement)+" including element in the beginning")
+    result = removeElements(head, removedElement)
+    print("result: " + str(id(result)))
+    listprint(result)
+
+    print("-------------------")
+    head = make_list([1,2,3,5,2,4,1,2,4]) #create LinkedList
+    ori = head
+    print("id: " + str(id(head)))   # id will be changes because first element is gone now
+    listprint(head)
+
+    removedElement = 4
+    print("After removing elements = "+ str(removedElement)+" including element in the end")
+    result = removeElements(head, removedElement)
+    print("result: " + str(id(result)))
+    listprint(result)
